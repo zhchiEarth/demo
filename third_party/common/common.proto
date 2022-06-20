@@ -1,0 +1,12 @@
+//syntax = "proto3";
+//
+//package common;
+//
+//option go_package = "compound/common";
+//
+//message PaginationSummary {
+//    uint32 page_number = 1;
+//    uint32 page_size = 2;
+//    uint32 total_entries = 3;
+//    uint32 total_pages = 4;
+//}

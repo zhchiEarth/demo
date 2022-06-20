@@ -1,0 +1,26 @@
+server:
+  http:
+    addr: 0.0.0.0:8999
+    timeout: 1s
+#  grpc:
+#    addr: 0.0.0.0:9000
+#    timeout: 1s
+  log:
+    level: info
+    file: logs/zap.log
+data:
+  database:
+    driver: mysql
+    source: root:123456@tcp(127.0.0.1:3306)/compound?charset=utf8mb4&parseTime=True&loc=Local
+  redis:
+    addr: 127.0.0.1:6379
+    read_timeout: 0.2s
+    write_timeout: 0.2s
+task:
+  graph:
+    source: http://127.0.0.1:8000/subgraphs/name/amara/compound
+  contract:
+    source: https://api.s0.b.hmny.io
+    comptroller: 0xf56BdF268DAaBE5C778E9fd30c5124e81827A10E
+    price_oracle: 0x7105418ABAFbFd54b74954d5c65AE0E9110c078D
+    cether: 0xb43fC22D64063ce02d789B3094d140e48ac52573

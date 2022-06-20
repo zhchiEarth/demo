@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package api.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+import "validate/validate.proto";
+
+option go_package = "compound/api/v1/account;v1";
+
+// The greeting service definition.
+service Account {
+    // Sends a greeting
+    rpc List (AccountListRequest) returns (AccountListReply) {
+        option (google.api.http) = {
+            get: "/api/v1/account",
+        };
+    }
+}
+
+// The request message containing the user's name.
+message AccountListRequest {
+
+    // unique 不支持重复消息。
+    repeated string addresses = 1 [(validate.rules).repeated.unique = true,
+                                    (validate.rules).repeated.ignore_empty = true,
+                                    (validate.rules).repeated.items.string = {
+                                        pattern:   "^0x[0-9a-fA-F]{40}$",
+                                        max_bytes: 42,
+                                    }];
+    // 必须大于 0
+    double max_health = 2 [(validate.rules).double = { gt: 0},
+                        (validate.rules).double.ignore_empty = true];
+
+    double min_borrow_value_in_eth = 3 [(validate.rules).double = { gt: 0},
+                        (validate.rules).double.ignore_empty = true];
+    // 必须大于 0
+    uint32 page_number = 4 [(validate.rules).uint32 = {gt:0},
+                            (validate.rules).uint32.ignore_empty = true];
+    // 大于0小于100
+    uint32 page_size = 5 [(validate.rules).uint32 = {gt:0, lte: 100},
+                            (validate.rules).uint32.ignore_empty = true];
+}
+
+// The response message containing the greetings
+message AccountListReply {
+    reserved 2;
+    message Account {
+        string address = 1;
+        string health = 2;
+        repeated Token tokens  = 3;
+        string total_borrow_value_in_eth = 4;
+        string total_collateral_value_in_eth = 5;
+    }
+    repeated Account accounts = 1;
+//    int32 error = 2;
+    PaginationSummary pagination_summary = 3;
+    AccountListRequest request = 4;
+}
+
+message PaginationSummary {
+    uint32 page_number = 1;
+    uint32 page_size = 2;
+    uint32 total_entries = 3;
+    uint32 total_pages = 4;
+}
+
+message Token {
+    string address = 1;
+    string symbol = 2;
+    string borrow_balance_underlying = 3;
+    string supply_balance_underlying = 4;
+    string lifetime_borrow_interest_accrued = 5;
+    string lifetime_supply_interest_accrued = 6;
+    string safe_withdraw_amount_underlying = 7;
+}

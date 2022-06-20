@@ -1,0 +1,190 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: ""
+    version: 0.0.1
+paths:
+    /api/v1/account:
+        get:
+            tags:
+                - Account
+            description: Sends a greeting
+            operationId: Account_List
+            parameters:
+                - name: addresses
+                  in: query
+                  description: 'repeated string addresses = 1 [(validate.rules).string = {                                        pattern:   "^0x[0-9a-fA-F]{40}$",                                        max_bytes: 42,                                    }];'
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: maxHealth
+                  in: query
+                  description: 必须大于 0
+                  schema:
+                    type: number
+                    format: double
+                - name: minBorrowValueInEth
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: pageNumber
+                  in: query
+                  description: 必须大于 0
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: pageSize
+                  in: query
+                  description: 参数是 10 或 20 或 30 50 100
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AccountListReply'
+    /helloworld/{name}:
+        get:
+            tags:
+                - Greeter
+            description: Sends a greeting
+            operationId: Greeter_SayHello
+            parameters:
+                - name: name
+                  in: path
+                  required: true
+                  schema:
+                    $ref: '#/components/schemas/StringValue'
+                - name: age.value
+                  in: query
+                  description: The int32 value.
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/HelloReply'
+components:
+    schemas:
+        AccountListReply:
+            type: object
+            properties:
+                accounts:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/AccountListReply_Account'
+                paginationSummary:
+                    $ref: '#/components/schemas/PaginationSummary'
+                request:
+                    $ref: '#/components/schemas/AccountListRequest'
+            description: The response message containing the greetings
+        AccountListReply_Account:
+            type: object
+            properties:
+                address:
+                    type: string
+                health:
+                    type: string
+                tokens:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Token'
+                totalBorrowValueInEth:
+                    type: string
+                totalCollateralValueInEth:
+                    type: string
+        AccountListRequest:
+            type: object
+            properties:
+                addresses:
+                    type: array
+                    items:
+                        type: string
+                    description: 'repeated string addresses = 1 [(validate.rules).string = {                                        pattern:   "^0x[0-9a-fA-F]{40}$",                                        max_bytes: 42,                                    }];'
+                maxHealth:
+                    type: number
+                    description: 必须大于 0
+                    format: double
+                minBorrowValueInEth:
+                    type: number
+                    format: double
+                pageNumber:
+                    type: integer
+                    description: 必须大于 0
+                    format: uint32
+                pageSize:
+                    type: integer
+                    description: 参数是 10 或 20 或 30 50 100
+                    format: uint32
+            description: The request message containing the user's name.
+        HelloReply:
+            type: object
+            properties:
+                message:
+                    $ref: '#/components/schemas/StringValue'
+                age:
+                    $ref: '#/components/schemas/Int32Value'
+            description: The response message containing the greetings
+        Int32Value:
+            type: object
+            properties:
+                value:
+                    type: integer
+                    description: The int32 value.
+                    format: int32
+            description: Wrapper message for `int32`. The JSON representation for `Int32Value` is JSON number.
+        PaginationSummary:
+            type: object
+            properties:
+                pageNumber:
+                    type: integer
+                    format: uint32
+                pageSize:
+                    type: integer
+                    format: uint32
+                totalEntries:
+                    type: integer
+                    format: uint32
+                totalPages:
+                    type: integer
+                    format: uint32
+        StringValue:
+            type: object
+            properties:
+                value:
+                    type: string
+                    description: The string value.
+            description: Wrapper message for `string`. The JSON representation for `StringValue` is JSON string.
+        Token:
+            type: object
+            properties:
+                address:
+                    type: string
+                symbol:
+                    type: string
+                borrowBalanceUnderlying:
+                    type: string
+                supplyBalanceUnderlying:
+                    type: string
+                lifetimeBorrowInterestAccrued:
+                    type: string
+                lifetimeSupplyInterestAccrued:
+                    type: string
+                safeWithdrawAmountUnderlying:
+                    type: string
+tags:
+    - name: Account
+      description: The greeting service definition.
+    - name: Greeter
+      description: The greeting service definition.

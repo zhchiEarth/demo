@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package api.v1;
+
+option go_package = "compound/api/task;task";
+
+// The greeting service definition.
+//service Account {
+//    // Sends a greeting
+//    rpc List (AccountListRequest) returns (AccountListReply) {
+//        option (google.api.http) = {
+//            get: "/api/v1/account",
+//        };
+//    }
+//}
+
+message Comptroller {
+    string id = 1;
+    string price_oracle = 2;
+    string close_factor = 3;
+    string liquidation_incentive = 4;
+    string max_assets = 5;
+}
+
+message Market {
+    string id = 1;
+    string borrow_rate = 2;
+    string cash = 3;
+    string collateral_factor = 4;
+    string exchange_rate = 5;
+    string interest_rate_model_address = 6;
+    string name = 7;
+    string reserves = 8;
+    string supply_rate = 9;
+    string symbol = 10;
+    string total_borrows = 11;
+    string total_supply = 12;
+    string underlying_address = 13;
+    string underlying_name = 14;
+    string underlying_price = 15;
+    string underlying_symbol = 16;
+    int64 accrual_block_number = 17;
+    int64 block_timestamp = 18;
+    string borrow_index = 19;
+    string reserve_factor = 20;
+    string underlying_price_usd = 21;
+    int32 underlying_decimals = 22;
+}
+
+message Account {
+    string id = 1;
+    bool has_borrowed = 2;
+    string count_liquidated = 3;
+    string count_liquidator = 4;
+    repeated Token tokens = 5;
+}
+
+message Token {
+    string id = 1;
+    string symbol = 2;
+    int32 accrual_block_number = 3;
+    bool entered_market = 4;
+    string c_token_balance = 5;
+    string total_underlying_supplied = 6;
+    string total_underlying_redeemed = 7;
+    string total_underlying_borrowed = 8;
+    string account_borrow_index = 9;
+    string total_underlying_repaid = 10;
+    string stored_borrow_balance = 11;
+}
